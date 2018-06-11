@@ -70,7 +70,7 @@ export class ChartComponent implements OnInit {
 
   ngOnInit(): void {
     // this.http.get("http://localhost:8000/api/v1/stat/2017_11")
-    this.http.get("https://stats-arg-server.herokuapp.com/api/v1/stat/2017")
+    this.http.get("https://time-series-service.herokuapp.com/api/v1/stat/2017")
     .subscribe((data: any) => {
       //No esta tomando bien el time zone ya que lo 'adapta' al timezone local y e UTC
       this.lineChartLabels = data.index.map(n => new Date(parseInt(n) /(1000 * 1000)).toLocaleDateString());
