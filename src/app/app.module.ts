@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatMenuModule, MatButtonModule, MatIconModule, MatCardModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatMenuModule, MatButtonModule, MatIconModule, MatCardModule, MatProgressSpinnerModule , MatListModule, MatExpansionModule} from '@angular/material';
 
 import { ChartsModule } from 'ng2-charts';
 
@@ -35,6 +35,8 @@ const appRoutes: Routes = [
     MatIconModule,
     MatCardModule,
     MatProgressSpinnerModule,
+    MatListModule,
+    MatExpansionModule,
     //Charts
     ChartsModule,
     //Http

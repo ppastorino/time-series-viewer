@@ -4,11 +4,15 @@ import { HttpClient } from '@angular/common/http';
  
 import { BaseChartDirective } from 'ng2-charts';
 
+import {MatSelectionList} from '@angular/material/list';
+
 @Component({
   selector: 'utp-chart',
   templateUrl: './chart.component.html'
 })
 export class ChartComponent implements OnInit {
+
+  @ViewChild(MatSelectionList) seriesList: MatSelectionList;
 
   // lineChart
   public lineChartData:Array<any>;
@@ -24,6 +28,12 @@ export class ChartComponent implements OnInit {
   public lineChartOptions:any = {
     responsive: true
   };
+
+  series = ['dolar','merval'];
+
+  dirty:boolean = false;
+  valid:boolean = false;
+  showInProgress:boolean = false;
 
   public lineChartColors:Array<any> = [
     { // green
@@ -65,30 +75,20 @@ export class ChartComponent implements OnInit {
   @ViewChild(BaseChartDirective) private _chart;
   
   constructor(private http: HttpClient) { 
-
   }
 
   ngOnInit(): void {
     // this.http.get("http://localhost:8000/api/v1/stat/2017_11")
-    this.http.get("https://time-series-service.herokuapp.com/api/v1/stat/2017")
-    .subscribe((data: any) => {
-      //No esta tomando bien el time zone ya que lo 'adapta' al timezone local y e UTC
-      this.lineChartLabels = data.index.map(n => new Date(parseInt(n) /(1000 * 1000)).toLocaleDateString());
-      this.lineChartData = data.values;
-    });
   }
 
-  public randomize():void {
-    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
-    for (let i = 0; i < this.lineChartData.length; i++) {
-      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
-      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
-      }
+  onSeriesListChanged(){
+    this.dirty = true;
+    if(this.seriesList.selectedOptions.selected.length == 0){
+      this.valid = false;
+      return;
     }
-    this.lineChartData = _lineChartData;
+    this.valid = true;
   }
- 
   // events
   public chartClicked(e:any):void {
     console.log(e);
@@ -97,4 +97,19 @@ export class ChartComponent implements OnInit {
   public chartHovered(e:any):void {
     console.log(e);
   }
+
+  public showClicked() : void {
+    this.lineChartData=null;
+    this.showInProgress=true;
+    this.http.get("https://time-series-service.herokuapp.com/api/v1/stat/2017")
+    .subscribe((data: any) => {
+      //No esta tomando bien el time zone ya que lo 'adapta' al timezone local y e UTC
+      this.lineChartLabels = data.index.map(n => new Date(parseInt(n) /(1000 * 1000)).toLocaleDateString());
+      this.lineChartData = data.values;
+      this.dirty = false;
+      this.showInProgress=false;
+    });
+  }
+
+  
 }

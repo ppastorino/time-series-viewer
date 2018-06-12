@@ -21,27 +21,9 @@
 -->
 <mat-card>
   <mat-card-title>
-    Estadísticas BCBA
+    Estadísticas
   </mat-card-title>
-  <mat-card-content>
-    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">
-      Ver
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['chart']">
-        <mat-icon>settings</mat-icon>
-        <span>Dolar</span>
-      </button>
-      <button mat-menu-item [routerLink]="['merval']">
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voicemail</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>notifications_off</mat-icon>
-        <span>Disable alerts</span>
-      </button>
-    </mat-menu>
-  </mat-card-content>
+  
   <mat-card-content>
     <router-outlet></router-outlet>
   </mat-card-content>

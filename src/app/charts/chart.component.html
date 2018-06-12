@@ -1,6 +1,30 @@
 <div class="row">
     <div class="col-md-6">
       <div style="display: block;">
+
+      <button mat-raised-button color="primary" (click)="showClicked()" [disabled]="!dirty || !valid">
+        Ver
+      </button>
+
+      <mat-expansion-panel [expanded]=true>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              Series
+            </mat-panel-title>
+            <mat-panel-description>
+              Seleccione Series y Período
+            </mat-panel-description>
+         </mat-expansion-panel-header>
+
+        <mat-selection-list #seriesList>
+           <mat-list-option *ngFor="let serie of series" 
+              (click)="onSeriesListChanged()">
+              {{serie}}
+            </mat-list-option>
+        </mat-selection-list>  
+
+      </mat-expansion-panel>
+
       <canvas baseChart width="100" height="100"
                   *ngIf="lineChartData"   [datasets]="lineChartData"
                   [labels]="lineChartLabels"
@@ -10,21 +34,8 @@
                   [chartType]="lineChartType"
                   (chartHover)="chartHovered($event)"
                   (chartClick)="chartClicked($event)"></canvas>
-        <mat-spinner *ngIf="!lineChartData"></mat-spinner>
+        <mat-spinner *ngIf="this.showInProgress"></mat-spinner>
       </div>
       
     </div>
-    <!--
-    <div class="col-md-6" style="margin-bottom: 10px">
-      <table class="table table-responsive table-condensed">
-        <tr>
-          <th *ngFor="let label of lineChartLabels">{{label}}</th>
-        </tr>
-        <tr *ngFor="let d of lineChartData">
-          <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
-        </tr>
-      </table>
-      <button (click)="randomize()">CLICK</button>
-    </div>
-  -->
   </div>
