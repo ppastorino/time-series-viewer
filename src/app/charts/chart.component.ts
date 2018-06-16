@@ -1,16 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
  
 import { BaseChartDirective } from 'ng2-charts';
 
 import {MatSelectionList} from '@angular/material/list';
+
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'utp-chart',
   templateUrl: './chart.component.html'
 })
 export class ChartComponent implements OnInit {
+
+  serviceUrl = environment.serviceUrl;
+
+  errorMessage: string;
 
   @ViewChild(MatSelectionList) seriesList: MatSelectionList;
 
@@ -78,7 +84,6 @@ export class ChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.http.get("http://localhost:8000/api/v1/stat/2017_11")
   }
 
   onSeriesListChanged(){
@@ -101,14 +106,33 @@ export class ChartComponent implements OnInit {
   public showClicked() : void {
     this.lineChartData=null;
     this.showInProgress=true;
-    this.http.get("https://time-series-service.herokuapp.com/api/v1/stat/2017")
+    let params = new HttpParams();
+
+    this.seriesList.selectedOptions.selected.forEach((s) => {
+      params = params.append('serie',s.value)
+    });
+
+    console.log(params);
+
+    this.http.get(this.serviceUrl + "series/data", {params : params})
     .subscribe((data: any) => {
       //No esta tomando bien el time zone ya que lo 'adapta' al timezone local y e UTC
       this.lineChartLabels = data.index.map(n => new Date(parseInt(n) /(1000 * 1000)).toLocaleDateString());
       this.lineChartData = data.values;
       this.dirty = false;
       this.showInProgress=false;
-    });
+      this.errorMessage = null;
+    },
+    (error: any) => {
+      console.log(error);
+      this.showInProgress=false;
+      this.errorMessage = "Error:" + (error.statusText || "Unknown");
+    },
+    () => {
+      this.showInProgress=false;
+    },
+       
+  );
   }
 
   

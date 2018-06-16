@@ -18,7 +18,7 @@
 
         <mat-selection-list #seriesList>
            <mat-list-option *ngFor="let serie of series" 
-              (click)="onSeriesListChanged()">
+              (click)="onSeriesListChanged()" [value]="serie">
               {{serie}}
             </mat-list-option>
         </mat-selection-list>  
@@ -34,7 +34,10 @@
                   [chartType]="lineChartType"
                   (chartHover)="chartHovered($event)"
                   (chartClick)="chartClicked($event)"></canvas>
-        <mat-spinner *ngIf="this.showInProgress"></mat-spinner>
+        <div layout="row" layout-fill layout-align="center center" style="min-height: 500px">                  
+          <mat-spinner *ngIf="this.showInProgress"></mat-spinner>
+          <mat-error *ngIf="this.errorMessage">{{errorMessage}}</mat-error>
+        </div>
       </div>
       
     </div>
