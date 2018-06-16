@@ -19,6 +19,8 @@ export class ChartComponent implements OnInit {
   errorMessage: string;
 
   @ViewChild(MatSelectionList) seriesList: MatSelectionList;
+  dateFrom: Date;
+  dateTo: Date;
 
   // lineChart
   public lineChartData:Array<any>;
@@ -106,13 +108,14 @@ export class ChartComponent implements OnInit {
   public showClicked() : void {
     this.lineChartData=null;
     this.showInProgress=true;
+    this.errorMessage = null;
+    
     let params = new HttpParams();
-
     this.seriesList.selectedOptions.selected.forEach((s) => {
       params = params.append('serie',s.value)
     });
-
-    console.log(params);
+    params = params.append('from',this.dateFrom.toISOString());
+    params = params.append('to',this.dateTo.toISOString());
 
     this.http.get(this.serviceUrl + "series/data", {params : params})
     .subscribe((data: any) => {

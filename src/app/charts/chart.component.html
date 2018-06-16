@@ -2,7 +2,7 @@
     <div class="col-md-6">
       <div style="display: block;">
 
-      <button mat-raised-button color="primary" (click)="showClicked()" [disabled]="!dirty || !valid">
+      <button mat-raised-button color="primary" (click)="showClicked()" [disabled]="!dirty || !valid || showInProgress">
         Ver
       </button>
 
@@ -15,6 +15,23 @@
               Seleccione Series y Período
             </mat-panel-description>
          </mat-expansion-panel-header>
+
+         <div class="row">
+          <div class="col-md-6">                  
+              <mat-form-field class="example-full-width">
+                  <input matInput [matDatepicker]="pickerFrom" placeholder="Fecha Desde" [(ngModel)]="dateFrom" required>
+                  <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerFrom></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                  <input matInput [matDatepicker]="pickerTo" placeholder="Fecha Hasta" [(ngModel)]="dateTo" required>
+                  <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerTo></mat-datepicker>
+              </mat-form-field>
+          
+          </div>
+         </div>
 
         <mat-selection-list #seriesList>
            <mat-list-option *ngFor="let serie of series" 
