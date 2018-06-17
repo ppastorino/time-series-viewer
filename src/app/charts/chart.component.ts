@@ -7,10 +7,12 @@ import { BaseChartDirective } from 'ng2-charts';
 import {MatSelectionList} from '@angular/material/list';
 
 import { environment } from '../../environments/environment';
+import { style } from '@angular/animations/src/animation_metadata';
 
 @Component({
   selector: 'utp-chart',
-  templateUrl: './chart.component.html'
+  templateUrl: './chart.component.html',
+  styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
 
@@ -86,6 +88,9 @@ export class ChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dateFrom = new Date();
+    this.dateFrom.setFullYear(this.dateFrom.getFullYear() - 1);
+    this.dateTo = new Date();
   }
 
   onSeriesListChanged(){
@@ -129,7 +134,7 @@ export class ChartComponent implements OnInit {
     (error: any) => {
       console.log(error);
       this.showInProgress=false;
-      this.errorMessage = "Error:" + (error.statusText || "Unknown");
+      this.errorMessage = "Error obteniendo series:" + (error.message || "Unknown");
     },
     () => {
       this.showInProgress=false;

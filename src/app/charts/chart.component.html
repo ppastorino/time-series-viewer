@@ -8,9 +8,11 @@
 
       <mat-expansion-panel [expanded]=true>
         <mat-expansion-panel-header>
+            <!--
             <mat-panel-title>
               Series
             </mat-panel-title>
+          -->
             <mat-panel-description>
               Seleccione Series y Período
             </mat-panel-description>
@@ -42,7 +44,7 @@
 
       </mat-expansion-panel>
 
-      <canvas baseChart width="100" height="100"
+      <canvas baseChart width="50" height="50" class="chart-canvas"
                   *ngIf="lineChartData"   [datasets]="lineChartData"
                   [labels]="lineChartLabels"
                   [options]="lineChartOptions"
@@ -51,8 +53,8 @@
                   [chartType]="lineChartType"
                   (chartHover)="chartHovered($event)"
                   (chartClick)="chartClicked($event)"></canvas>
-        <div layout="row" layout-fill layout-align="center center" style="min-height: 500px">                  
-          <mat-spinner *ngIf="this.showInProgress"></mat-spinner>
+        <div style="text-align: center;">                  
+          <mat-spinner *ngIf="this.showInProgress" style="margin:0 auto;" mode="indeterminate"></mat-spinner>
           <mat-error *ngIf="this.errorMessage">{{errorMessage}}</mat-error>
         </div>
       </div>

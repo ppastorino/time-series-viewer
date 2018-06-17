@@ -20,8 +20,9 @@ import { ChartComponent } from './charts/chart.component';
 import { MervalComponent } from './charts/merval.component';
 
 const appRoutes: Routes = [
-  { path: 'chart', component: ChartComponent },
+  { path: 'series', component: ChartComponent },
   { path: 'merval', component: MervalComponent },
+  { path: '', redirectTo: '/series', pathMatch: 'full' },
 ];
 
 @NgModule({
